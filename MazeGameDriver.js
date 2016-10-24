@@ -141,6 +141,22 @@ function checkOrientation(newpos){
 	offset = offset % 4;
 }
 
+function showCurrentMaze(){
+	
+	curPosSpace = maze[curPosIndex];
+	maze[curPosIndex] = "X";
+	
+	for(var i = 0; i < size; i++){
+		var row = "";
+		for(var j =0; j < size; j++){
+			row += maze[(i*6)+j];
+		}
+		console.log(row);
+	}
+	
+	maze[curPosIndex] = curPosSpace;
+}
+
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------
 gameDriver loop
@@ -154,9 +170,18 @@ gameDriver loop
 	6)directionsToPerspective(offset) changes the directions with respect to the maze to direction with respect to the user perspective
 	7)draw() draws the doors for the user to choose which direction they would like to go
 	8)wait for user input */
-maze = getMaze();
-showCurrentMaze();
+	
+maze =["P","E","W","W","S","W","P","W","W","W","P","P","P","P","P","P","W","P","W","P","W","P","W","P","W","P","P","P","P","P","W","W","W","W","W","E"];
 var count = 0;
+var curPosIndex = 4;
+var curPosSpace = "S";
+var size = 6;
+var validMoves = [];
+var cardnalDirections = [];
+var offset = 2;
+showCurrentMaze();
+
+
 while(curPosSpace != "E" && count != 10){
 	getValidMoves();
 	console.log("valid moves: " + validMoves.toString());
@@ -177,3 +202,4 @@ while(curPosSpace != "E" && count != 10){
 	count++;
 }
 
+/*["P","E","W","W","S","W","P","W","W","W","P","P","P","P","P","P","W","P","W","P","W","P","W","P","W","P","P","P","P","P","W","W","W","W","W","E"]*/
