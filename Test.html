@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #000000;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+
+var myGamePiece;
+var forwardView;
+var leftView;
+var rightView;
+
+document.onkeyup = updateGameArea;
+
+function startGame() {
+    myGameArea.start();
+	myGamePiece = new component(30, 30, "red", 250, 250, "north");
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 500;
+        this.canvas.height = 500;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y, direction) {
+    this.width = width;
+	this.height = height;
+	this.x = x;
+	this.y = y;
+	this.direction = direction;
+	ctx = myGameArea.context;
+	ctx.fillStyle = color;
+	ctx.fillRect(this.x, this.y, this.width, this.height);
+	if(this.direction == "north"){
+		forwardView = new component(this.width, this.height * 3, "white", this.x, this.y - 90, 0);
+		leftView = new component(this.width * 3, this.height, "white", this.x - 90, this.y, 0);
+		rightView = new component(this.width * 3, this.height, "white", this.x + 30, this.y, 0);
+	}
+	if(this.direction == "east"){
+		forwardView = new component(this.width * 3, this.height, "white", this.x + 30, this.y, 0);
+		leftView = new component(this.width, this.height * 3, "white", this.x, this.y - 90, 0);
+		rightView = new component(this.width, this.height * 3, "white", this.x, this.y + 30, 0);
+	}
+	if(this.direction == "south"){
+		forwardView = new component(this.width, this.height * 3, "white", this.x, this.y + 30, 0);
+		leftView = new component(this.width * 3, this.height, "white", this.x + 30, this.y, 0);
+		rightView = new component(this.width * 3, this.height, "white", this.x - 90, this.y, 0);
+	}
+	if(this.direction == "west"){
+		forwardView = new component(this.width * 3, this.height, "white", this.x - 90, this.y, 0);
+		leftView = new component(this.width, this.height * 3, "white", this.x, this.y + 30, 0);
+		rightView = new component(this.width, this.height * 3, "white", this.x, this.y - 90, 0);
+	}
+	this.newPos = function(dir) {
+		this.direction = dir;
+		if(dir == "north"){
+			this.y -= 30;
+		}
+		if(dir == "south"){
+			this.y += 30;
+		}
+		if(dir == "east"){
+			this.x += 30;
+		}
+		if(dir == "west"){
+			this.x -= 30;
+		}
+	}
+	this.update = function(){
+		ctx = myGameArea.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+		if(this.direction == "north"){
+			forwardView = new component(this.width, this.height * 3, "white", this.x, this.y - 90, 0);
+			leftView = new component(this.width * 3, this.height, "white", this.x - 90, this.y, 0);
+			rightView = new component(this.width * 3, this.height, "white", this.x + 30, this.y, 0);
+		}
+		if(this.direction == "east"){
+			forwardView = new component(this.width * 3, this.height, "white", this.x + 30, this.y, 0);
+			leftView = new component(this.width, this.height * 3, "white", this.x, this.y - 90, 0);
+			rightView = new component(this.width, this.height * 3, "white", this.x, this.y + 30, 0);
+		}
+		if(this.direction == "south"){
+			forwardView = new component(this.width, this.height * 3, "white", this.x, this.y + 30, 0);
+			leftView = new component(this.width * 3, this.height, "white", this.x + 30, this.y, 0);
+			rightView = new component(this.width * 3, this.height, "white", this.x - 90, this.y, 0);
+		}
+		if(this.direction == "west"){
+			forwardView = new component(this.width * 3, this.height, "white", this.x - 90, this.y, 0);
+			leftView = new component(this.width, this.height * 3, "white", this.x, this.y + 30, 0);
+			rightView = new component(this.width, this.height * 3, "white", this.x, this.y - 90, 0);
+		}
+	}
+	
+}
+
+function updateGameArea(e) {
+    e = e || window.event;
+	if(e.keyCode >= '37' && e.keyCode <= '40')
+	{
+		myGameArea.clear()
+		if(e.keyCode == '38')
+		{
+			myGamePiece.newPos("north");
+			myGamePiece.update();
+		}
+		if(e.keyCode == '40')
+		{
+			myGamePiece.newPos("south");
+			myGamePiece.update();
+		}
+		if(e.keyCode == '37')
+		{
+			myGamePiece.newPos("west");
+			myGamePiece.update();
+		}
+		if(e.keyCode == '39')
+		{
+			myGamePiece.newPos("east");
+			myGamePiece.update();
+		}
+		
+	}
+}
+</script>
+</body>
+</html>
