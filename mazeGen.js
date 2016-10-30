@@ -59,8 +59,11 @@
 		var endCol = size-2;
 		maze[startRow][startCol] = 'S';
 		maze[endRow][endCol] = 'E';
+		maze = recurseMaze(maze, startRow, startCol);
+		maze = placeHoles(maze);
+		maze[startRow][startCol] = 'S';
+		maze[endRow][endCol] = 'E';
 		return maze;
-		//return maze;
 
 	}
 
@@ -76,73 +79,44 @@
 			}
 		}
 		var path = recurseMaze(maze, curRow, curCol);
+
 		return path;
 
 
 	}
 
-	function recurseMaze(maze, curRow, curCol){
-		var path = [];
-		var tempRow = curRow;
-		var tempCol = curCol;
-		if(maze[curRow][curCol] == 'E')
+	function placeHoles(maze){
+		for(var i = 0; i < maze.length; i++)
 		{
-			maze[curRow][curCol] = 'V';
-			path.push([curRow, curCol]);
-			return path;
-		}
-		if((maze[curRow-1][curCol] == 'P' || maze[curRow-1][curCol] == 'E') && maze[curRow-1][curCol] != 'V'){
-			tempRow = curRow-1;
-			maze[curRow][curCol] = 'V';
-			path = recurseMaze(maze, tempRow, tempCol);
-			if (path != 0)
+			for(var j = 0; j < maze[i].length; j++)
 			{
-				path.unshift([curRow, curCol]);
-				return path;
+				if(maze[i][j] == 'P')
+				{
+					maze[i][j] = 'H';
+				}
 			}
-			else{
-				tempRow = curRow;
-			}
+		}
+		return maze;
+	}
+
+	function recurseMaze(maze, curRow, curCol){
+		if((maze[curRow-1][curCol] == 'P' || maze[curRow-1][curCol] == 'E') && maze[curRow-1][curCol] != 'V'){
+			maze[curRow][curCol] = 'V';
+			maze = recurseMaze(maze, curRow-1, curCol);
 		}
 		if((maze[curRow][curCol+1] == 'P' || maze[curRow][curCol+1] == 'E') && maze[curRow][curCol+1] != 'V'){
-			tempCol = curCol+1;
 			maze[curRow][curCol] = 'V';
-			path = recurseMaze(maze, tempRow, tempCol);
-			if (path != 0)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}
-			else{
-				tempCol = curCol;
-			}
+			maze = recurseMaze(maze, curRow, curCol+1);
 		}
 		if((maze[curRow+1][curCol] == 'P' || maze[curRow+1][curCol] == 'E') && maze[curRow+1][curCol] != 'V'){
-			tempRow = curRow+1;
 			maze[curRow][curCol] = 'V';
-			path = recurseMaze(maze, tempRow, tempCol);
-			if (path != 0)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}else{
-				tempRow = curRow;
-			}
+			maze = recurseMaze(maze, curRow+1, curCol);
 		}
 		if((maze[curRow][curCol-1] == 'P' || maze[curRow][curCol-1] == 'E') && maze[curRow][curCol-1] != 'V'){
-			tempCol = curCol-1;
 			maze[curRow][curCol] = 'V';
-			path = recurseMaze(maze, tempRow, tempCol);
-			if (path != 0)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}else{
-				tempCol = curCol;
-			}
+			maze = recurseMaze(maze, curRow, curCol-1);
 		}
-		return 0;
-
+		return maze;
 
 	}
 
@@ -162,9 +136,6 @@
 
 	function getMaze(size){
 		maze = makeScaleMaze(size);
-		printMaze(maze);
-		//console.log(twoToOne(maze));
-		console.log(mazeSolver(maze));
 		return twoToOne(maze);
 	}
 
@@ -265,3 +236,73 @@
 		return maze;
 
 	}
+
+/*		var path = [];
+		var tempRow = curRow;
+		var tempCol = curCol;
+		if(maze[curRow][curCol] == 'E')
+		{
+			maze[curRow][curCol] = 'V';
+			path.push([curRow, curCol]);
+			return path;
+		}
+		if((maze[curRow-1][curCol] == 'P' || maze[curRow-1][curCol] == 'E') && maze[curRow-1][curCol] != 'V'){
+			tempRow = curRow-1;
+			maze[curRow][curCol] = 'V';
+			deadEnd = false;
+			path = recurseMaze(maze, tempRow, tempCol);
+			if (path != true)
+			{
+				path.unshift([curRow, curCol]);
+				//return path;
+			}
+			else{
+				tempRow = curRow;
+			}
+		}
+		if((maze[curRow][curCol+1] == 'P' || maze[curRow][curCol+1] == 'E') && maze[curRow][curCol+1] != 'V'){
+			tempCol = curCol+1;
+			maze[curRow][curCol] = 'V';
+			deadEnd = false;
+			path = recurseMaze(maze, tempRow, tempCol);
+			if (path != true)
+			{
+				path.unshift([curRow, curCol]);
+				//return path;
+			}
+			else{
+				tempCol = curCol;
+			}
+		}
+		if((maze[curRow+1][curCol] == 'P' || maze[curRow+1][curCol] == 'E') && maze[curRow+1][curCol] != 'V'){
+			tempRow = curRow+1;
+			maze[curRow][curCol] = 'V';
+			deadEnd = false;
+			path = recurseMaze(maze, tempRow, tempCol);
+			if (path != true)
+			{
+				path.unshift([curRow, curCol]);
+				//return path;
+			}else{
+				tempRow = curRow;
+			}
+		}
+		if((maze[curRow][curCol-1] == 'P' || maze[curRow][curCol-1] == 'E') && maze[curRow][curCol-1] != 'V'){
+			tempCol = curCol-1;
+			maze[curRow][curCol] = 'V';
+			deadEnd = false;
+			path = recurseMaze(maze, tempRow, tempCol);
+			if (path != true)
+			{
+				path.unshift([curRow, curCol]);
+				//return path;
+			}else{
+				tempCol = curCol;
+			}
+		}
+		if(path == true)
+		{
+			return true;
+		}
+		return true;
+*/
