@@ -26,6 +26,7 @@ function startGame() {
     myGameArea.loadMaze();
 	myGamePiece = new component(30, 30, "player", myGameArea.startRow*30, myGameArea.startCol*30, "east");
 	myGameArea.loadMaze();
+	myGameArea.loadWalls();
 }
 
 var myGameArea = {
@@ -42,17 +43,12 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     loadMaze : function() {
-    	this.walls = [];
     	this.holes = [];
     	for (var i = 0; i < 19; i++)
     	{
     		for (var j = 0; j < 19; j++)
     		{
-    			if(this.mazes[this.level][j*19+i] == "W")
-    			{
-    				this.walls.push(new component(30,30, "wall", i*30, j*30, 0));
-    			}
-    			else if(this.mazes[this.level][j*19+i] == 'H' && this.level != 0)
+    			if(this.mazes[this.level][j*19+i] == 'H' && this.level != 0)
     			{
     				this.holes.push(new component(30, 30, "hole", i*30, j*30, 0));
     			}
@@ -67,13 +63,26 @@ var myGameArea = {
     			}
     		}
     	}
-    	this.context.fillStyle = "white";
-    	this.context.font="20px Times New Roman";
-    	this.context.fillText("Level: " + (this.level+1), 10, 50);
 
     },
     loadNextMaze : function() {
     	this.mazes.push(getMaze(19));
+    },
+    loadWalls : function() {
+    	this.walls = [];
+    	for (var i = 0; i < 19; i++)
+    	{
+    		for (var j = 0; j < 19; j++)
+    		{
+    			if(this.mazes[this.level][j*19+i] == "W")
+    			{
+    				this.walls.push(new component(30, 30, "wall", i*30, j*30, 0));
+    			}
+    		}
+    	}
+    	this.context.fillStyle = "white";
+    	this.context.font="20px Times New Roman";
+    	this.context.fillText("Level: " + (this.level+1), 10, 50);
     }
     
 }
@@ -98,7 +107,7 @@ function component(width, height, id, x, y, direction) {
 	}
 	else if(id == "wall")
 	{
-		this.color = "gray";
+		this.color = "black";
 	}
 	else if(id == "end")
 	{
@@ -106,28 +115,32 @@ function component(width, height, id, x, y, direction) {
 	}
 	else if(id == "hole")
 	{
-		this.color = "green";
+		this.color = "black";
+	}
+	else if(id == "prime")
+	{
+		this.color = "yellow";
 	}
 	else{this.color = "black";}
 	ctx.fillStyle = this.color;
 	ctx.fillRect(this.x, this.y, this.width, this.height);
 	if(this.direction == "north"){
-		forwardView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
+		forwardView = new component(this.width, this.height, "prime", this.x, this.y - 30, 0);
 		leftView = new component(this.width, this.height, "perspective", this.x - 30, this.y, 0);
 		rightView = new component(this.width, this.height, "perspective", this.x + 30, this.y, 0);
 	}
 	if(this.direction == "east"){
-		forwardView = new component(this.width, this.height, "perspective", this.x + 30, this.y, 0);
+		forwardView = new component(this.width, this.height, "prime", this.x + 30, this.y, 0);
 		leftView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
 		rightView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
 	}
 	if(this.direction == "south"){
-		forwardView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
+		forwardView = new component(this.width, this.height, "prime", this.x, this.y + 30, 0);
 		leftView = new component(this.width, this.height, "perspective", this.x + 30, this.y, 0);
 		rightView = new component(this.width, this.height, "perspective", this.x -30, this.y, 0);
 	}
 	if(this.direction == "west"){
-		forwardView = new component(this.width, this.height, "perspective", this.x - 30, this.y, 0);
+		forwardView = new component(this.width, this.height, "prime", this.x - 30, this.y, 0);
 		leftView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
 		rightView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
 	}
@@ -148,6 +161,7 @@ function component(width, height, id, x, y, direction) {
 				{
 					if(myGameArea.level != 0)
 					{
+						alert("You fell in a hole and went down a level!");
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -173,6 +187,7 @@ function component(width, height, id, x, y, direction) {
 				{
 					if(myGameArea.level != 0)
 					{
+						alert("You fell in a hole and went down a level!");
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -198,6 +213,7 @@ function component(width, height, id, x, y, direction) {
 				{
 					if(myGameArea.level != 0)
 					{
+						alert("You fell in a hole and went down a level!");
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -223,6 +239,7 @@ function component(width, height, id, x, y, direction) {
 				{
 					if(myGameArea.level != 0)
 					{
+						alert("You fell in a hole and went down a level!");
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -263,27 +280,28 @@ function component(width, height, id, x, y, direction) {
 		ctx = myGameArea.context;
 		ctx.fillStyle = this.color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
+		myGameArea.loadMaze();
 		if(this.direction == "north"){
-			forwardView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
+			forwardView = new component(this.width, this.height, "prime", this.x, this.y - 30, 0);
 			leftView = new component(this.width, this.height, "perspective", this.x - 30, this.y, 0);
 			rightView = new component(this.width, this.height, "perspective", this.x + 30, this.y, 0);
 		}
 		if(this.direction == "east"){
-			forwardView = new component(this.width, this.height, "perspective", this.x + 30, this.y, 0);
+			forwardView = new component(this.width, this.height, "prime", this.x + 30, this.y, 0);
 			leftView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
 			rightView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
 		}
 		if(this.direction == "south"){
-			forwardView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
+			forwardView = new component(this.width, this.height, "prime", this.x, this.y + 30, 0);
 			leftView = new component(this.width, this.height, "perspective", this.x + 30, this.y, 0);
 			rightView = new component(this.width, this.height, "perspective", this.x - 30, this.y, 0);
 		}
 		if(this.direction == "west"){
-			forwardView = new component(this.width, this.height, "perspective", this.x - 30, this.y, 0);
+			forwardView = new component(this.width, this.height, "prime", this.x - 30, this.y, 0);
 			leftView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
 			rightView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
 		}
-		myGameArea.loadMaze();
+		myGameArea.loadWalls();
 	}
 	
 }
