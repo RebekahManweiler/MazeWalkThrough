@@ -1,21 +1,8 @@
-	function alertMaze() {
-	var newMaze = makeMaze(maze, [2,2]);
-	var temp="";
-	for(var i = 0; i < newMaze[0].length; i++) {
- 		for(var z = 0; z < newMaze.length; z++) {
- 			 temp+=newMaze[i][z];
- 		}
- 		temp+="\n";
-	}
-	console.log(temp);
-
-	}
-
 	function getMazeSize(maze){
 		return Math.floor(Math.sqrt(maze.length));
 	}
 
-	function makeScaleMaze(size) {
+	function getMaze(size) {
 
 		var maze = [];
 		for(var i = 0; i < size; i++)
@@ -63,7 +50,7 @@
 		maze = placeHoles(maze);
 		maze[startRow][startCol] = 'S';
 		maze[endRow][endCol] = 'E';
-		return maze;
+		return twoToOne(maze);
 
 	}
 
@@ -132,11 +119,6 @@
 			}
 		}
 		return temp;
-	}
-
-	function getMaze(size){
-		maze = makeScaleMaze(size);
-		return twoToOne(maze);
 	}
 
 	function printMaze(maze){
@@ -237,7 +219,8 @@
 
 	}
 
-/*		var path = [];
+	function pathFinder(){
+		var path = [];
 		var tempRow = curRow;
 		var tempCol = curCol;
 		if(maze[curRow][curCol] == 'E')
@@ -254,7 +237,6 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
 			}
 			else{
 				tempRow = curRow;
@@ -268,7 +250,6 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
 			}
 			else{
 				tempCol = curCol;
@@ -282,7 +263,6 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
 			}else{
 				tempRow = curRow;
 			}
@@ -295,7 +275,6 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
 			}else{
 				tempCol = curCol;
 			}
@@ -305,4 +284,4 @@
 			return true;
 		}
 		return true;
-*/
+}
