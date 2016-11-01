@@ -119,7 +119,17 @@ var myGameArea = {
 }
 
 
-
+/**
+ * Creates an individual component for a grid space
+ * @pre all values are valid (direction only needed for player piece)
+ * @param width is the width of the component in the y direction
+ * @param height is the height of the component in the x direction
+ * @param id is the id of the object to determine what it is
+ * @param x is the x coordinate of the top left corner of the component
+ * @param y is the y coordinate of the top left corner of the component
+ * @param direction is the direction of a player component is facing
+ * @post a component is created and added to the canvas
+ */
 function component(width, height, id, x, y, direction) {
     this.width = width;
 	this.height = height;
@@ -179,6 +189,11 @@ function component(width, height, id, x, y, direction) {
 		leftView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
 		rightView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
 	}
+	/**
+	 * A player piece is given a new position on the canvas
+	 * @param dir is the direction the player piece is facing
+	 * @post the player piece is given a new position based on where it was facing
+	 */
 	this.newPos = function(dir) {
 		this.direction = dir;
 		var move = true;
@@ -291,6 +306,11 @@ function component(width, height, id, x, y, direction) {
 			}
 		}
 	}
+	/**
+	 * A player piece is given a new direction to face
+	 * @param dir is the new direction the player piece is given based on already facing north
+	 * @post the player piece is facing a new direction
+	 */
 	this.setNewDirection = function(dir){
 		if(dir == "west")
 		{
@@ -315,6 +335,10 @@ function component(width, height, id, x, y, direction) {
 		}
 
 	}
+	/**
+	 * Updates the canvas with the new components
+	 * @post the canvas is updated and redrawn
+	 */
 	this.update = function(){
 		ctx = myGameArea.context;
 		ctx.fillStyle = this.color;
@@ -345,6 +369,11 @@ function component(width, height, id, x, y, direction) {
 	
 }
 
+/**
+ * Updates the game area based on user input
+ * @param e is the window event activated when someone presses a button
+ * @post the game area is updated
+ */
 function updateGameArea(e) {
     e = e || window.event;
 	if(e.keyCode >= '37' && e.keyCode <= '40')
