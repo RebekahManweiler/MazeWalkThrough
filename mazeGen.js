@@ -1,21 +1,8 @@
-	function alertMaze() {
-	var newMaze = makeMaze(maze, [2,2]);
-	var temp="";
-	for(var i = 0; i < newMaze[0].length; i++) {
- 		for(var z = 0; z < newMaze.length; z++) {
- 			 temp+=newMaze[i][z];
- 		}
- 		temp+="\n";
-	}
-	console.log(temp);
-
-	}
-
 	function getMazeSize(maze){
 		return Math.floor(Math.sqrt(maze.length));
 	}
 
-	function makeScaleMaze(size) {
+	function getMaze(size) {
 
 		var maze = [];
 		for(var i = 0; i < size; i++)
@@ -63,7 +50,7 @@
 		maze = placeHoles(maze);
 		maze[startRow][startCol] = 'S';
 		maze[endRow][endCol] = 'E';
-		return maze;
+		return twoToOne(maze);
 
 	}
 
@@ -134,11 +121,6 @@
 		return temp;
 	}
 
-	function getMaze(size){
-		maze = makeScaleMaze(size);
-		return twoToOne(maze);
-	}
-
 	function printMaze(maze){
 		var temp="";
 		for(var i = 0; i < maze[0].length; i++) {
@@ -148,17 +130,6 @@
  			temp+="\n";
 		}
 		console.log(temp);
-	}
-
-	function displayCoords(path){
-
-		var temp = "[";
-		var temp2 = "";
-		for (var i = 0; i < path.length; i++){
-			temp+="(" + path[i][0] + "," + path[i][1] + "), ";
-		}
-		console.log(temp);
-
 	}
 
 	function randomIntFromInterval(min,max)
@@ -236,8 +207,9 @@
 		return maze;
 
 	}
+	function pathFinder(){
 
-/*		var path = [];
+		var path = [];
 		var tempRow = curRow;
 		var tempCol = curCol;
 		if(maze[curRow][curCol] == 'E')
@@ -305,4 +277,4 @@
 			return true;
 		}
 		return true;
-*/
+	}
