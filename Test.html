@@ -122,12 +122,12 @@ var myGameArea = {
 /**
  * Creates an individual component for a grid space
  * @pre all values are valid (direction only needed for player piece)
- * @param width is the width of the component in the y direction
- * @param height is the height of the component in the x direction
- * @param id is the id of the object to determine what it is
- * @param x is the x coordinate of the top left corner of the component
- * @param y is the y coordinate of the top left corner of the component
- * @param direction is the direction of a player component is facing
+ * @param {number} width is the width of the component in the y direction
+ * @param {number} height is the height of the component in the x direction
+ * @param {string} id is the id of the object to determine what it is
+ * @param {number} x is the x coordinate of the top left corner of the component
+ * @param {number} y is the y coordinate of the top left corner of the component
+ * @param {string} direction is the direction of a player component is facing
  * @post a component is created and added to the canvas
  */
 function component(width, height, id, x, y, direction) {
@@ -191,7 +191,7 @@ function component(width, height, id, x, y, direction) {
 	}
 	/**
 	 * A player piece is given a new position on the canvas
-	 * @param dir is the direction the player piece is facing
+	 * @param {string} dir is the direction the player piece is facing
 	 * @post the player piece is given a new position based on where it was facing
 	 */
 	this.newPos = function(dir) {
@@ -308,7 +308,7 @@ function component(width, height, id, x, y, direction) {
 	}
 	/**
 	 * A player piece is given a new direction to face
-	 * @param dir is the new direction the player piece is given based on already facing north
+	 * @param {string} dir is the new direction the player piece is given based on already facing north
 	 * @post the player piece is facing a new direction
 	 */
 	this.setNewDirection = function(dir){
@@ -371,7 +371,7 @@ function component(width, height, id, x, y, direction) {
 
 /**
  * Updates the game area based on user input
- * @param e is the window event activated when someone presses a button
+ * @param {event} e is the window event activated when someone presses a button
  * @post the game area is updated
  */
 function updateGameArea(e) {
