@@ -132,17 +132,6 @@
 		console.log(temp);
 	}
 
-	function displayCoords(path){
-
-		var temp = "[";
-		var temp2 = "";
-		for (var i = 0; i < path.length; i++){
-			temp+="(" + path[i][0] + "," + path[i][1] + "), ";
-		}
-		console.log(temp);
-
-	}
-
 	function randomIntFromInterval(min,max)
 	{
 		var x = 0;
@@ -218,7 +207,6 @@
 		return maze;
 
 	}
-
 	function pathFinder(){
 		var path = [];
 		var tempRow = curRow;
@@ -284,4 +272,4 @@
 			return true;
 		}
 		return true;
-}
+	}

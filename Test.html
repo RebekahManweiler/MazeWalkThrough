@@ -61,6 +61,10 @@ var myGameArea = {
     				this.startRow = i;
     				this.startCol = j;
     			}
+    			/*else if(this.mazes[this.level][j*19+i] == "T")
+    			{
+    				this.holes.push(new component(30, 30, "triggered", i*30, j*30, 0, 0));
+    			}*/
     		}
     	}
 
@@ -107,7 +111,7 @@ function component(width, height, id, x, y, direction) {
 	}
 	else if(id == "wall")
 	{
-		this.color = "black";
+		this.color = "gray";
 	}
 	else if(id == "end")
 	{
@@ -120,6 +124,10 @@ function component(width, height, id, x, y, direction) {
 	else if(id == "prime")
 	{
 		this.color = "yellow";
+	}
+	else if(id == "triggered")
+	{
+		this.color = "green";
 	}
 	else{this.color = "black";}
 	ctx.fillStyle = this.color;
@@ -162,6 +170,7 @@ function component(width, height, id, x, y, direction) {
 					if(myGameArea.level != 0)
 					{
 						alert("You fell in a hole and went down a level!");
+						//myGameArea.mazes[this.level][myGameArea.holes[i].arrIndex] = 'T';
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -188,6 +197,7 @@ function component(width, height, id, x, y, direction) {
 					if(myGameArea.level != 0)
 					{
 						alert("You fell in a hole and went down a level!");
+						//myGameArea.mazes[this.level][myGameArea.holes[i].arrIndex] = 'T';
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -214,6 +224,7 @@ function component(width, height, id, x, y, direction) {
 					if(myGameArea.level != 0)
 					{
 						alert("You fell in a hole and went down a level!");
+						//myGameArea.mazes[this.level][myGameArea.holes[i].arrIndex] = 'T';
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
@@ -240,6 +251,7 @@ function component(width, height, id, x, y, direction) {
 					if(myGameArea.level != 0)
 					{
 						alert("You fell in a hole and went down a level!");
+						//myGameArea.mazes[this.level][myGameArea.holes[i].arrIndex] = 'T';
 						myGameArea.level -= 1;
 						myGameArea.loadMaze();
 						myGameArea.clear();
