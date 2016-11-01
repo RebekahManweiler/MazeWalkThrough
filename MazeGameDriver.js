@@ -188,7 +188,6 @@ while(curPosSpace != "E" && count != 10){
 	console.log("cardnal directions: " + cardnalDirections.toString());
 	directionsToPerspective(offset);
 	console.log("offset cardnal directions: " + cardnalDirections.toString());
-	//chosenDirection = sendTOGUI(cardnalDirections);
 	var chosenDirection = cardnalDirections.pop();
 	console.log("chosen direction: " + chosenDirection);
 	var newPosIndex = directionToPosition(chosenDirection, offset);
@@ -201,5 +200,3 @@ while(curPosSpace != "E" && count != 10){
 	showCurrentMaze();
 	count++;
 }
-
-/*["P","E","W","W","S","W","P","W","W","W","P","P","P","P","P","P","W","P","W","P","W","P","W","P","W","P","P","P","P","P","W","W","W","W","W","E"]*/

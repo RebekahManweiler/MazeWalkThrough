@@ -225,7 +225,6 @@
 
 	}
 	function pathFinder(){
-
 		var path = [];
 		var tempRow = curRow;
 		var tempCol = curCol;
