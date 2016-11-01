@@ -1,7 +1,19 @@
+	/**
+	 * Returns the size of the given maze
+	 * @param {array} maze - The maze array
+	 * @pre maze is a valid and filled array that is a perfect square length
+	 * @return {int} size of the given maze
+	 */
 	function getMazeSize(maze){
 		return Math.floor(Math.sqrt(maze.length));
 	}
 
+	/**
+	 * Returns a randomized maze of the given size
+	 * @param {int} size - The given size of the maze
+	 * @pre size is not less than 7
+	 * @return {array} the filled 1D maze array
+	 */
 	function getMaze(size) {
 
 		var maze = [];
@@ -54,6 +66,11 @@
 
 	}
 
+	/**
+	 * 
+	 *
+	 *
+	 */
 	function mazeSolver(maze){
 		var curRow = 0;
 		var curCol = 0;
@@ -226,7 +243,7 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
+				return path;
 			}
 			else{
 				tempRow = curRow;
@@ -240,7 +257,7 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
+				return path;
 			}
 			else{
 				tempCol = curCol;
@@ -254,7 +271,7 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
+				return path;
 			}else{
 				tempRow = curRow;
 			}
@@ -267,7 +284,7 @@
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
-				//return path;
+				return path;
 			}else{
 				tempCol = curCol;
 			}
