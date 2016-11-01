@@ -13,6 +13,7 @@ canvas {
 <body onload="startGame()">
 <script>
 
+//Parts of code based off of HTML Game Example from W3Schools http://www.w3schools.com/graphics/game_intro.asp
 var myGamePiece;
 var forwardView;
 var leftView;
@@ -20,6 +21,10 @@ var rightView;
 
 document.onkeyup = updateGameArea;
 
+/**
+ * Starts and runs the game
+ * @post Game is up and running in a loaded canvas
+ */
 function startGame() {
 
     myGameArea.start();
@@ -29,19 +34,35 @@ function startGame() {
 	myGameArea.loadWalls();
 }
 
+/**
+ * Creates the game area that the player will be playing the maze game inside of
+ * @post A game area is created with its components and functions
+ */
 var myGameArea = {
     canvas : document.createElement("canvas"),
     mazes : [getMaze(19)],
     level : 0,
+    /**
+     * Creates the canvas
+     * @post a canvas is created
+     */
     start : function() {
         this.canvas.width = 570;
         this.canvas.height = 570;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         },
+    /**
+     * Clears the canvas of all rectangles
+     * @post every rectangle is cleared from the canvas
+     */
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
+    /**
+     * Loads the maze into the canvas
+     * @post the maze is in the canvas
+     */
     loadMaze : function() {
     	this.holes = [];
     	for (var i = 0; i < 19; i++)
@@ -65,9 +86,19 @@ var myGameArea = {
     	}
 
     },
+
+    /**
+     * Calls getMaze to set up the maze for the next level
+     * @post the maze for the next level is set up
+     */
     loadNextMaze : function() {
     	this.mazes.push(getMaze(19));
     },
+
+    /**
+     * Creates the walls for the maze
+     * @post the walls are created 
+     */
     loadWalls : function() {
     	this.walls = [];
     	for (var i = 0; i < 19; i++)
@@ -88,7 +119,17 @@ var myGameArea = {
 }
 
 
-
+/**
+ * Creates an individual component for a grid space
+ * @pre all values are valid (direction only needed for player piece)
+ * @param width is the width of the component in the y direction
+ * @param height is the height of the component in the x direction
+ * @param id is the id of the object to determine what it is
+ * @param x is the x coordinate of the top left corner of the component
+ * @param y is the y coordinate of the top left corner of the component
+ * @param direction is the direction of a player component is facing
+ * @post a component is created and added to the canvas
+ */
 function component(width, height, id, x, y, direction) {
     this.width = width;
 	this.height = height;
@@ -148,6 +189,11 @@ function component(width, height, id, x, y, direction) {
 		leftView = new component(this.width, this.height, "perspective", this.x, this.y + 30, 0);
 		rightView = new component(this.width, this.height, "perspective", this.x, this.y - 30, 0);
 	}
+	/**
+	 * A player piece is given a new position on the canvas
+	 * @param dir is the direction the player piece is facing
+	 * @post the player piece is given a new position based on where it was facing
+	 */
 	this.newPos = function(dir) {
 		this.direction = dir;
 		var move = true;
@@ -260,6 +306,11 @@ function component(width, height, id, x, y, direction) {
 			}
 		}
 	}
+	/**
+	 * A player piece is given a new direction to face
+	 * @param dir is the new direction the player piece is given based on already facing north
+	 * @post the player piece is facing a new direction
+	 */
 	this.setNewDirection = function(dir){
 		if(dir == "west")
 		{
@@ -284,6 +335,10 @@ function component(width, height, id, x, y, direction) {
 		}
 
 	}
+	/**
+	 * Updates the canvas with the new components
+	 * @post the canvas is updated and redrawn
+	 */
 	this.update = function(){
 		ctx = myGameArea.context;
 		ctx.fillStyle = this.color;
@@ -314,6 +369,11 @@ function component(width, height, id, x, y, direction) {
 	
 }
 
+/**
+ * Updates the game area based on user input
+ * @param e is the window event activated when someone presses a button
+ * @post the game area is updated
+ */
 function updateGameArea(e) {
     e = e || window.event;
 	if(e.keyCode >= '37' && e.keyCode <= '40')
